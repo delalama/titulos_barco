@@ -1,0 +1,359 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#102b37">
+  <meta name="description" content="Diario y seguimiento de la Hoja de Ruta Náutica 2026–2027.">
+  <title>Bitácora · Ruta náutica 2026—27</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #172d35; --muted: #718087; --paper: #f4f3ed; --card: #fffefa;
+      --line: #e5e5dc; --sea: #116b67; --sea-dark: #0b4c4a; --foam: #e3f1eb;
+      --gold: #e9b95d; --coral: #d8755b; --shadow: 0 16px 45px #15343b0d;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--paper); color: var(--ink); font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif; line-height: 1.5; }
+    button, input, textarea, select { font: inherit; }
+    button { cursor: pointer; }
+    .shell { width: min(1120px, calc(100% - 40px)); margin: 0 auto; }
+    header { position: relative; overflow: hidden; padding: 54px 0 38px; color: #f7f5ed; background: var(--sea-dark); }
+    header::after { content: ""; position: absolute; width: 390px; height: 390px; right: -60px; top: -210px; border: 1px solid #ffffff22; border-radius: 50%; box-shadow: 0 0 0 32px #ffffff08, 0 0 0 64px #ffffff08, 0 0 0 96px #ffffff08; pointer-events: none; }
+    .eyebrow { text-transform: uppercase; letter-spacing: .16em; font-size: .72rem; font-weight: 750; color: #b9d9ce; }
+    h1 { margin: 12px 0 8px; max-width: 700px; font: 500 clamp(2.25rem, 5vw, 4rem)/1.04 Georgia, "Times New Roman", serif; letter-spacing: -.035em; }
+    .intro { color: #d2e2dc; max-width: 560px; margin: 12px 0 28px; }
+    .hero-row { display: flex; align-items: end; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
+    .progress-wrap { width: min(410px, 100%); }
+    .progress-label { display: flex; justify-content: space-between; margin-bottom: 9px; color: #e2eee8; font-size: .86rem; }
+    .progress-track { height: 8px; border-radius: 99px; background: #ffffff2b; overflow: hidden; }
+    .progress-fill { height: 100%; width: 0; border-radius: inherit; background: var(--gold); transition: width .25s ease; }
+    .hero-count { color: #d2e2dc; font-size: .86rem; }
+    main { padding: 30px 0 70px; }
+    .tabs { display: flex; gap: 6px; border-bottom: 1px solid var(--line); margin-bottom: 24px; }
+    .tab { border: 0; background: transparent; color: var(--muted); padding: 12px 16px; border-bottom: 2px solid transparent; font-weight: 700; }
+    .tab[aria-selected="true"] { color: var(--sea-dark); border-bottom-color: var(--sea); }
+    .view[hidden] { display: none; }
+    .section-head { display: flex; align-items: end; justify-content: space-between; gap: 16px; margin: 0 0 18px; }
+    h2 { margin: 0; font: 500 1.85rem/1.15 Georgia, "Times New Roman", serif; letter-spacing: -.025em; }
+    .section-note { color: var(--muted); margin: 5px 0 0; font-size: .91rem; }
+    .phase-list { display: grid; gap: 13px; }
+    .phase { background: var(--card); border: 1px solid var(--line); border-radius: 13px; box-shadow: var(--shadow); overflow: hidden; }
+    .phase summary { list-style: none; display: flex; align-items: center; gap: 15px; padding: 18px 20px; cursor: pointer; }
+    .phase summary::-webkit-details-marker { display: none; }
+    .phase summary::after { content: "+"; color: var(--sea); font-size: 1.4rem; margin-left: auto; }
+    .phase[open] summary::after { content: "−"; }
+    .phase-num { display: grid; place-items: center; width: 39px; height: 39px; flex: 0 0 39px; border-radius: 50%; background: var(--foam); color: var(--sea-dark); font-size: .75rem; font-weight: 800; }
+    .phase-title { font-weight: 750; }
+    .phase-meta { display: block; color: var(--muted); font-size: .8rem; margin-top: 2px; }
+    .phase-progress { color: var(--sea); font-weight: 750; font-size: .82rem; white-space: nowrap; }
+    .milestones { border-top: 1px solid var(--line); padding: 4px 20px 14px 74px; }
+    .milestone { padding: 14px 0; border-bottom: 1px solid #eeeee8; }
+    .milestone:last-child { border-bottom: 0; }
+    .milestone-top { display: flex; gap: 12px; align-items: flex-start; }
+    .check { appearance: none; width: 20px; height: 20px; flex: 0 0 20px; margin: 2px 0 0; border: 1.5px solid #b4c1bb; border-radius: 6px; background: white; display: grid; place-items: center; }
+    .check:checked { background: var(--sea); border-color: var(--sea); }
+    .check:checked::after { content: "✓"; color: white; font-size: 14px; font-weight: 800; }
+    .milestone-name { font-weight: 680; }
+    .milestone.done .milestone-name { color: #7f8984; text-decoration: line-through; }
+    .deadline { color: var(--muted); font-size: .8rem; margin-top: 2px; }
+    .note-row { margin: 10px 0 0 32px; }
+    .note-row textarea { display: block; width: 100%; resize: vertical; min-height: 42px; padding: 9px 11px; border: 1px solid transparent; border-radius: 8px; color: var(--ink); background: #f7f7f2; font-size: .86rem; }
+    .note-row textarea:focus { outline: 2px solid #a5d1c0; border-color: #a5d1c0; background: white; }
+    .note-row textarea::placeholder { color: #98a19c; }
+    .diary-layout { display: grid; grid-template-columns: minmax(260px, .78fr) minmax(0, 1.35fr); gap: 22px; align-items: start; }
+    .card { border: 1px solid var(--line); background: var(--card); border-radius: 13px; padding: 21px; box-shadow: var(--shadow); }
+    .card h3 { margin: 0 0 15px; font: 500 1.35rem Georgia, "Times New Roman", serif; }
+    label { display: block; margin: 13px 0 6px; color: #53636a; font-size: .8rem; font-weight: 750; }
+    input[type="date"], input[type="text"], select, textarea { width: 100%; border: 1px solid var(--line); border-radius: 8px; padding: 10px 11px; background: #fff; color: var(--ink); }
+    textarea { resize: vertical; }
+    input:focus, select:focus, .card textarea:focus { outline: 2px solid #a5d1c0; border-color: #a5d1c0; }
+    .entry-body { min-height: 150px; }
+    .button { border: 0; border-radius: 8px; padding: 10px 14px; font-weight: 750; }
+    .button-primary { width: 100%; margin-top: 15px; background: var(--sea); color: white; }
+    .button-primary:hover { background: var(--sea-dark); }
+    .button-quiet { color: var(--sea-dark); background: var(--foam); }
+    .button-danger { color: #9b4534; background: #faece8; }
+    .diary-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 12px; }
+    .diary-head h3 { margin: 0; }
+    .entry-list { display: grid; gap: 11px; }
+    .entry { border: 1px solid var(--line); border-radius: 10px; padding: 15px; background: #fff; }
+    .entry-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; }
+    .entry-date { color: var(--sea); font-size: .78rem; font-weight: 800; letter-spacing: .04em; }
+    .entry-title { margin: 3px 0 0; font-weight: 750; }
+    .entry-tag { display: inline-block; margin-top: 8px; padding: 3px 8px; border-radius: 99px; background: var(--foam); color: var(--sea-dark); font-size: .73rem; }
+    .entry-text { white-space: pre-wrap; margin: 12px 0 0; color: #46565b; font-size: .91rem; }
+    .entry-actions { display: flex; gap: 6px; flex-shrink: 0; }
+    .entry-actions button { border: 0; background: transparent; color: var(--muted); font-size: .78rem; padding: 4px; }
+    .empty { padding: 28px 15px; color: var(--muted); text-align: center; border: 1px dashed #d8ddd6; border-radius: 10px; }
+    .tools { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; margin-top: 24px; padding-top: 18px; border-top: 1px solid var(--line); }
+    .tools p { margin: 0; color: var(--muted); font-size: .82rem; }
+    .tool-buttons { display: flex; gap: 8px; flex-wrap: wrap; }
+    .toast { position: fixed; bottom: 18px; left: 50%; transform: translate(-50%, 20px); opacity: 0; pointer-events: none; background: #153b3a; color: white; padding: 10px 15px; border-radius: 8px; box-shadow: var(--shadow); transition: .2s; z-index: 5; }
+    .toast.show { opacity: 1; transform: translate(-50%, 0); }
+    footer { padding: 0 0 26px; color: var(--muted); font-size: .78rem; text-align: center; }
+    @media (max-width: 700px) {
+      .shell { width: min(100% - 28px, 600px); }
+      header { padding: 38px 0 30px; }
+      .diary-layout { grid-template-columns: 1fr; }
+      .milestones { padding-left: 20px; }
+      .phase summary { padding: 15px; gap: 11px; }
+      .phase-progress { font-size: .75rem; }
+      .tab { padding: 11px 10px; font-size: .9rem; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="shell">
+      <div class="eyebrow">Bitácora personal · 2026—2027</div>
+      <h1>Un rumbo claro.<br>Una milla cada vez.</h1>
+      <p class="intro">Tu hoja de ruta hacia el trabajo como Patrón Profesional, con espacio para registrar lo que pasa en cada etapa.</p>
+      <div class="hero-row">
+        <div class="progress-wrap">
+          <div class="progress-label"><span>Progreso de la ruta</span><strong id="progress-percent">0%</strong></div>
+          <div class="progress-track" role="progressbar" aria-label="Progreso total" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="progress-fill" id="progress-fill"></div></div>
+        </div>
+        <div class="hero-count" id="progress-count">0 de 0 hitos completados</div>
+      </div>
+    </div>
+  </header>
+
+  <main class="shell">
+    <nav class="tabs" role="tablist" aria-label="Secciones de la bitácora">
+      <button class="tab" id="tab-route" role="tab" aria-selected="true" aria-controls="route-view">Hoja de ruta</button>
+      <button class="tab" id="tab-diary" role="tab" aria-selected="false" aria-controls="diary-view">Diario <span id="entry-count"></span></button>
+    </nav>
+
+    <section class="view" id="route-view" role="tabpanel" aria-labelledby="tab-route">
+      <div class="section-head"><div><h2>Las etapas</h2><p class="section-note">Marca los hitos y anota lo que quieras recordar.</p></div></div>
+      <div class="phase-list" id="phase-list"></div>
+    </section>
+
+    <section class="view" id="diary-view" role="tabpanel" aria-labelledby="tab-diary" hidden>
+      <div class="section-head"><div><h2>Diario de navegación</h2><p class="section-note">Fechas, aprendizajes, guardias, logros y próximos pasos.</p></div></div>
+      <div class="diary-layout">
+        <form class="card" id="entry-form">
+          <h3 id="form-heading">Nueva entrada</h3>
+          <input type="hidden" id="entry-id">
+          <label for="entry-date">Fecha</label>
+          <input type="date" id="entry-date" required>
+          <label for="entry-title">Título</label>
+          <input type="text" id="entry-title" maxlength="100" placeholder="Ej. Primeras millas a vela" required>
+          <label for="entry-phase">Etapa relacionada <span style="font-weight:400">(opcional)</span></label>
+          <select id="entry-phase"><option value="">Sin etapa concreta</option></select>
+          <label for="entry-text">Tu entrada</label>
+          <textarea class="entry-body" id="entry-text" maxlength="10000" placeholder="¿Qué ocurrió? ¿Qué aprendiste? ¿Qué quieres hacer después?" required></textarea>
+          <button class="button button-primary" type="submit" id="submit-entry">Guardar entrada</button>
+          <button class="button button-quiet" type="button" id="cancel-edit" hidden style="width:100%;margin-top:8px">Cancelar edición</button>
+        </form>
+        <div class="card">
+          <div class="diary-head"><h3>Entradas</h3><select id="diary-filter" aria-label="Filtrar entradas por etapa" style="width:auto;max-width:190px"><option value="">Todas las etapas</option></select></div>
+          <div class="entry-list" id="entry-list"></div>
+        </div>
+      </div>
+      <div class="tools">
+        <p>Haz una copia de seguridad de tu bitácora o impórtala en otro navegador.</p>
+        <div class="tool-buttons">
+          <button class="button button-quiet" type="button" id="export-data">Exportar copia JSON</button>
+          <button class="button button-quiet" type="button" id="import-trigger">Importar copia JSON</button>
+          <input type="file" id="import-file" accept="application/json,.json" hidden>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer class="shell">Tu bitácora vive en este navegador. Exporta una copia para conservarla o moverla a otro dispositivo.</footer>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    "use strict";
+    const STORAGE_KEY = "bitacora-nautica-2026-2027-v1";
+    const phases = [
+      { id: "fase1", title: "Diciembre 2026", subtitle: "PER + Habilitación a Vela", items: [
+        ["fase1_examen_per", "Aprobar el examen PER", "Diciembre 2026"],
+        ["fase1_habilitacion_vela", "Completar la habilitación a Vela", "Diciembre 2026"]
+      ]},
+      { id: "fase2", title: "Enero / Febrero 2027", subtitle: "Requisitos RYA Commercial", items: [
+        ["fase2_stcw", "Completar formación STCW", "Enero/Febrero 2027"],
+        ["fase2_medico", "Obtener certificado médico ISM/ENG1", "Enero/Febrero 2027"],
+        ["fase2_radio_src", "Obtener la radio RYA SRC", "Enero/Febrero 2027"],
+        ["fase2_millas_logbook", "Registrar 100 millas en el logbook", "Enero/Febrero 2027"]
+      ]},
+      { id: "fase3", title: "Marzo 2027", subtitle: "Patrón de Yate + RYA PPR Online", items: [
+        ["fase3_patron_yate", "Obtener el título de Patrón de Yate (PY)", "Marzo 2027"],
+        ["fase3_rya_ppr", "Completar el curso RYA PPR Online", "Marzo 2027"]
+      ]},
+      { id: "fase4", title: "Abril / Mayo 2027", subtitle: "RYA Day Skipper + Commercial Endorsement", items: [
+        ["fase4_day_skipper_sail", "Completar RYA Day Skipper Practical (SAIL)", "Abril/Mayo 2027"],
+        ["fase4_day_skipper_motor", "Completar RYA Day Skipper Practical (MOTOR)", "Abril/Mayo 2027"],
+        ["fase4_envio_endorsement", "Enviar la solicitud de Commercial Endorsement", "Abril/Mayo 2027"]
+      ]},
+      { id: "fase5", title: "Mayo 2027", subtitle: "Commercial Endorsement + Inicio Laboral", items: [
+        ["fase5_endorsement_sail", "Recibir Commercial Endorsement (Sail)", "Mayo 2027"],
+        ["fase5_endorsement_motor", "Recibir Commercial Endorsement (Motor)", "Mayo 2027"],
+        ["fase5_inicio_laboral", "Iniciar la actividad laboral como Patrón Profesional", "Mayo 2027"]
+      ]},
+      { id: "fase6", title: "Junio / Julio 2027", subtitle: "Capitán de Yate", items: [
+        ["fase6_capitan_yate", "Obtener el título de Capitán de Yate (CY)", "Junio/Julio 2027"]
+      ]}
+    ];
+
+    const allMilestones = phases.flatMap(phase => phase.items.map(item => ({ id: item[0], title: item[1], deadline: item[2], phaseId: phase.id, phaseName: phase.title + " · " + phase.subtitle })));
+    const defaultState = () => ({ milestones: {}, entries: [] });
+    let state = readState();
+
+    function readState() {
+      try {
+        const parsed = JSON.parse(localStorage.getItem(STORAGE_KEY));
+        if (parsed && typeof parsed === "object") return { milestones: parsed.milestones || {}, entries: Array.isArray(parsed.entries) ? parsed.entries : [] };
+      } catch (error) { console.warn("No se pudo leer el progreso guardado.", error); }
+      return defaultState();
+    }
+    function persist() {
+      try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
+      catch (error) { toast("No se pudo guardar. Exporta una copia y libera espacio del navegador."); }
+      renderProgress();
+    }
+    function escapeHtml(value) {
+      return String(value).replace(/[&<>"']/g, char => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[char]);
+    }
+    function renderPhases() {
+      const host = document.getElementById("phase-list");
+      // Al actualizar el checklist, conserva las fases abiertas para que
+      // marcar un hito no cierre el acordeón que lo contiene.
+      const fasesAbiertas = new Set([...host.querySelectorAll(".phase[open]")].map(el => el.dataset.phase));
+      host.innerHTML = phases.map((phase, index) => {
+        const done = phase.items.filter(item => state.milestones[item[0]] && state.milestones[item[0]].done).length;
+        const rows = phase.items.map(item => {
+          const saved = state.milestones[item[0]] || {};
+          const checked = saved.done ? " checked" : "";
+          return `<div class="milestone${saved.done ? " done" : ""}">
+            <div class="milestone-top"><input class="check" type="checkbox" data-check="${item[0]}" aria-label="Marcar ${escapeHtml(item[1])}"${checked}>
+              <div><div class="milestone-name">${escapeHtml(item[1])}</div><div class="deadline">Objetivo: ${escapeHtml(item[2])}</div></div></div>
+            <div class="note-row"><textarea data-note="${item[0]}" rows="1" maxlength="2000" aria-label="Nota para ${escapeHtml(item[1])}" placeholder="Añade una nota sobre este hito…">${escapeHtml(saved.note || "")}</textarea></div>
+          </div>`;
+        }).join("");
+        const abierta = fasesAbiertas.size ? fasesAbiertas.has(phase.id) : index === 0;
+        return `<details class="phase" data-phase="${phase.id}" ${abierta ? "open" : ""}><summary><span class="phase-num">0${index + 1}</span><span><span class="phase-title">${escapeHtml(phase.title)}</span><span class="phase-meta">${escapeHtml(phase.subtitle)}</span></span><span class="phase-progress">${done}/${phase.items.length}</span></summary><div class="milestones">${rows}</div></details>`;
+      }).join("");
+      host.querySelectorAll("[data-check]").forEach(box => box.addEventListener("change", () => {
+        const item = state.milestones[box.dataset.check] || { note: "" };
+        item.done = box.checked; state.milestones[box.dataset.check] = item; persist(); renderPhases();
+      }));
+      host.querySelectorAll("[data-note]").forEach(area => area.addEventListener("input", () => {
+        const item = state.milestones[area.dataset.note] || { done: false };
+        item.note = area.value; state.milestones[area.dataset.note] = item; persist();
+      }));
+      renderProgress();
+    }
+    function renderProgress() {
+      const done = allMilestones.filter(item => state.milestones[item.id] && state.milestones[item.id].done).length;
+      const pct = Math.round(done / allMilestones.length * 100);
+      document.getElementById("progress-percent").textContent = pct + "%";
+      document.getElementById("progress-fill").style.width = pct + "%";
+      document.querySelector(".progress-track").setAttribute("aria-valuenow", String(pct));
+      document.getElementById("progress-count").textContent = `${done} de ${allMilestones.length} hitos completados`;
+      phases.forEach(phase => {
+        const panel = [...document.querySelectorAll(".phase")].find(el => el.querySelector(".phase-num")?.textContent === "0" + (phases.indexOf(phase) + 1));
+        if (panel) panel.querySelector(".phase-progress").textContent = `${phase.items.filter(item => state.milestones[item[0]]?.done).length}/${phase.items.length}`;
+      });
+    }
+    function setupPhaseOptions() {
+      const options = phases.map(p => `<option value="${p.id}">${escapeHtml(p.title)} · ${escapeHtml(p.subtitle)}</option>`).join("");
+      document.getElementById("entry-phase").insertAdjacentHTML("beforeend", options);
+      document.getElementById("diary-filter").insertAdjacentHTML("beforeend", options);
+    }
+    function todayLocal() {
+      const now = new Date(); return new Date(now.getTime() - now.getTimezoneOffset() * 60000).toISOString().slice(0, 10);
+    }
+    function formatDate(date) {
+      if (!date) return "Sin fecha";
+      const parts = date.split("-"); return parts.length === 3 ? `${parts[2]}.${parts[1]}.${parts[0]}` : date;
+    }
+    function renderEntries() {
+      const filter = document.getElementById("diary-filter").value;
+      const entries = [...state.entries].filter(entry => !filter || entry.phaseId === filter).sort((a, b) => (b.date || "").localeCompare(a.date || "") || (b.updatedAt || "").localeCompare(a.updatedAt || ""));
+      document.getElementById("entry-count").textContent = state.entries.length ? `(${state.entries.length})` : "";
+      const host = document.getElementById("entry-list");
+      if (!entries.length) { host.innerHTML = `<div class="empty">${filter ? "No hay entradas para esta etapa." : "Aún no hay entradas. Cuando empiece la travesía, este será tu cuaderno."}</div>`; return; }
+      host.innerHTML = entries.map(entry => {
+        const phase = phases.find(p => p.id === entry.phaseId);
+        return `<article class="entry"><div class="entry-top"><div><div class="entry-date">${escapeHtml(formatDate(entry.date))}</div><div class="entry-title">${escapeHtml(entry.title)}</div></div><div class="entry-actions"><button type="button" data-edit="${escapeHtml(entry.id)}">Editar</button><button type="button" data-delete="${escapeHtml(entry.id)}" aria-label="Borrar ${escapeHtml(entry.title)}">Borrar</button></div></div>${phase ? `<span class="entry-tag">${escapeHtml(phase.title)} · ${escapeHtml(phase.subtitle)}</span>` : ""}<p class="entry-text">${escapeHtml(entry.text)}</p></article>`;
+      }).join("");
+      host.querySelectorAll("[data-edit]").forEach(button => button.addEventListener("click", () => editEntry(button.dataset.edit)));
+      host.querySelectorAll("[data-delete]").forEach(button => button.addEventListener("click", () => deleteEntry(button.dataset.delete)));
+    }
+    function resetEntryForm() {
+      document.getElementById("entry-form").reset();
+      document.getElementById("entry-id").value = "";
+      document.getElementById("entry-date").value = todayLocal();
+      document.getElementById("form-heading").textContent = "Nueva entrada";
+      document.getElementById("submit-entry").textContent = "Guardar entrada";
+      document.getElementById("cancel-edit").hidden = true;
+    }
+    function editEntry(id) {
+      const entry = state.entries.find(item => item.id === id); if (!entry) return;
+      document.getElementById("entry-id").value = entry.id;
+      document.getElementById("entry-date").value = entry.date;
+      document.getElementById("entry-title").value = entry.title;
+      document.getElementById("entry-phase").value = entry.phaseId || "";
+      document.getElementById("entry-text").value = entry.text;
+      document.getElementById("form-heading").textContent = "Editar entrada";
+      document.getElementById("submit-entry").textContent = "Guardar cambios";
+      document.getElementById("cancel-edit").hidden = false;
+      document.getElementById("entry-form").scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+    function deleteEntry(id) {
+      const entry = state.entries.find(item => item.id === id); if (!entry) return;
+      if (!window.confirm(`¿Borrar la entrada «${entry.title}»?`)) return;
+      state.entries = state.entries.filter(item => item.id !== id); persist(); renderEntries(); toast("Entrada borrada.");
+    }
+    let toastTimer;
+    function toast(message) {
+      const el = document.getElementById("toast"); el.textContent = message; el.classList.add("show");
+      clearTimeout(toastTimer); toastTimer = setTimeout(() => el.classList.remove("show"), 2400);
+    }
+    document.getElementById("entry-form").addEventListener("submit", event => {
+      event.preventDefault();
+      const id = document.getElementById("entry-id").value;
+      const entry = { id: id || (crypto.randomUUID ? crypto.randomUUID() : String(Date.now())), date: document.getElementById("entry-date").value, title: document.getElementById("entry-title").value.trim(), phaseId: document.getElementById("entry-phase").value, text: document.getElementById("entry-text").value.trim(), updatedAt: new Date().toISOString() };
+      if (!entry.title || !entry.text || !entry.date) return;
+      if (id) state.entries = state.entries.map(old => old.id === id ? entry : old); else state.entries.push(entry);
+      persist(); renderEntries(); resetEntryForm(); toast(id ? "Cambios guardados." : "Entrada añadida a tu diario.");
+    });
+    document.getElementById("cancel-edit").addEventListener("click", resetEntryForm);
+    document.getElementById("diary-filter").addEventListener("change", renderEntries);
+    document.getElementById("tab-route").addEventListener("click", () => showTab("route"));
+    document.getElementById("tab-diary").addEventListener("click", () => showTab("diary"));
+    function showTab(which) {
+      const route = which === "route";
+      document.getElementById("route-view").hidden = !route;
+      document.getElementById("diary-view").hidden = route;
+      document.getElementById("tab-route").setAttribute("aria-selected", String(route));
+      document.getElementById("tab-diary").setAttribute("aria-selected", String(!route));
+      if (!route) renderEntries();
+    }
+    document.getElementById("export-data").addEventListener("click", () => {
+      const blob = new Blob([JSON.stringify({ version: 1, exportedAt: new Date().toISOString(), state }, null, 2)], { type: "application/json" });
+      const url = URL.createObjectURL(blob); const link = document.createElement("a");
+      link.href = url; link.download = `bitacora-nautica-${todayLocal()}.json`; link.click(); URL.revokeObjectURL(url); toast("Copia JSON descargada.");
+    });
+    document.getElementById("import-trigger").addEventListener("click", () => document.getElementById("import-file").click());
+    document.getElementById("import-file").addEventListener("change", async event => {
+      const file = event.target.files[0]; if (!file) return;
+      try {
+        const parsed = JSON.parse(await file.text());
+        const imported = parsed.state || parsed;
+        if (!imported || typeof imported !== "object" || !Array.isArray(imported.entries) || !imported.milestones || typeof imported.milestones !== "object") throw new Error("Formato no reconocido");
+        if (!window.confirm("La importación reemplazará el progreso y el diario guardados en este navegador. ¿Continuar?")) return;
+        state = { milestones: imported.milestones, entries: imported.entries }; persist(); renderPhases(); renderEntries(); toast("Bitácora importada.");
+      } catch (error) { toast("No se pudo importar: el archivo no parece una copia válida."); }
+      finally { event.target.value = ""; }
+    });
+
+    setupPhaseOptions();
+    document.getElementById("entry-date").value = todayLocal();
+    renderPhases(); renderEntries();
+  </script>
+</body>
+</html>

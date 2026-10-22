@@ -1,0 +1,7 @@
+__pycache__/
+*.py[cod]
+logbook_nautico.json
+logbook_nautico.json.tmp
+nautica_progress.json
+nautica_progress.json.tmp
+certificados_logbook/
